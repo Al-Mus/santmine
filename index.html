@@ -293,12 +293,37 @@
                             </div>
                         </div>
                         
-                        <a href="https://www.dropbox.com/scl/fi/z8pj1ap7kgb3f1litqvlq/resourcepack.zip?rlkey=98x4gb9hip2f6vsnd0bgyt0s1&st=ixxsst5q&dl=1" download class="inline-flex items-center gap-3 download-btn text-white font-bold text-xl px-12 py-6 rounded-2xl glow-green">
+                        <button id="downloadBtn" class="inline-flex items-center gap-3 download-btn text-white font-bold text-xl px-12 py-6 rounded-2xl glow-green">
                             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                             </svg>
                             Скачать ресурс-пак
-                        </a>
+                        </button>
+                        
+                        <script>
+                        document.getElementById('downloadBtn').addEventListener('click', async function() {
+                            const url = "https://www.dropbox.com/scl/fi/z8pj1ap7kgb3f1litqvlq/resourcepack.zip?rlkey=98x4gb9hip2f6vsnd0bgyt0s1&st=0yfe5yer&dl=1";
+                            try {
+                                const response = await fetch(url);
+                                if (!response.ok) throw new Error("Ошибка загрузки");
+                        
+                                const blob = await response.blob();
+                                const blobUrl = URL.createObjectURL(blob);
+                        
+                                const a = document.createElement("a");
+                                a.href = blobUrl;
+                                a.download = "resourcepack.zip";
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                        
+                                URL.revokeObjectURL(blobUrl);
+                            } catch (err) {
+                                alert("Не удалось скачать: " + err.message);
+                            }
+                        });
+                        </script>
+
 
                         
                         <p class="text-gray-500 text-sm mt-6">
